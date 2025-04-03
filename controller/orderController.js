@@ -55,11 +55,8 @@ exports.getOrders = async (req, res) => {
 exports.updateOrder = async (req, res) => {
     console.log("Inside updateOrder");
 
-    // Extract the orderId from the request parameters or body
-    const { orderId } = req.params; // If passed in URL params
-    // Or if passed in body: const { orderId } = req.body;
-
-    // Validate if orderId exists
+    const { orderId } = req.params;
+    
     if (!orderId) {
         return res.status(400).json({ message: "Order ID is required" });
     }
@@ -67,13 +64,12 @@ exports.updateOrder = async (req, res) => {
     const { items, totalPrice, status } = req.body;
 
     try {
-        // Ensure orderId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(orderId)) {
             return res.status(400).json({ message: "Invalid Order ID format" });
         }
 
         const updatedOrder = await Order.findOneAndUpdate(
-            { _id: orderId, userId: req.userId }, // Ensure valid ObjectId for _id
+            { _id: orderId, userId: req.userId }, 
             { items, totalPrice, status, updatedAt: new Date() },
             { new: true }
         );
