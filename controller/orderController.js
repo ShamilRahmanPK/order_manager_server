@@ -93,7 +93,7 @@ exports.deleteOrder = async (req, res) => {
     const { orderId } = req.params;
 
     try {
-        const deletedOrder = await Order.findOneAndDelete({ _id: orderId, userId: req.userId });
+        const deletedOrder = await Order.findOneAndDelete({ _id: orderId});
 
         if (!deletedOrder) {
             return res.status(404).json({ message: "Order not found or unauthorized" });
